@@ -8,8 +8,6 @@ const jwt = require("jsonwebtoken");
 
 const PORT = process.env.PORT ?? 8000;
 
-// min 35:14 for possible package.json errors
-
 server.use(cors());
 server.use(express.json());
 const saltRounds = 10;
@@ -119,4 +117,4 @@ server.post("/login", async (req, res) => {
   }
 });
 
-server.listen(process.env.PORT, () => console.log(`server running at port ${PORT}`));
+server.listen(PORT, () => console.log(`server running at port ${PORT}`));
