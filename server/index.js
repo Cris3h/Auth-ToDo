@@ -5,7 +5,7 @@ const server = express();
 const { v4: uuidv4 } = require("uuid");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { User, ToDo } = require("./schema/index.js");
+const { User, ToDo } = require("./schema");
 
 const PORT = process.env.PORT ?? 8000;
 
