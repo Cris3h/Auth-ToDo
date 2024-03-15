@@ -5,7 +5,7 @@ const server = express();
 const { v4: uuidv4 } = require("uuid");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { User, ToDo } = require("./schema");
+const database  = require("./schema");
 
 const PORT = process.env.PORT ?? 8000;
 
@@ -17,7 +17,7 @@ const saltRounds = 10;
 server.get("/todos/:userEmail", async (req, res) => {
   const { userEmail } = req.params;
   try {
-    const todos = await ToDo.find({user_email: userEmail})
+    const todos = await database.ToDo.find({user_email: userEmail})
     console.log(todos)
     // res.json(todos);
   } catch (error) {
@@ -78,7 +78,7 @@ server.post("/signup", async (req, res) => {
   try {
     // const signUp = new User({email, hashedpassword})
     // await signUp.save()
-    const signUp = await User.create({email, hashedpassword})
+    const signUp = await database.User.create({email, hashedpassword})
     const token = jwt.sign({ email }, "secret", { expiresIn: "1hr" });
     res.json({ email, token });
   } catch (error) {
