@@ -8,9 +8,8 @@ const {
 } = require("../services");
 
 const allToDos = async (req, res) => {
-  const { userEmail } = req.params;
   try {
-    const todos = await getAllToDosService(userEmail);
+    const todos = await getAllToDosService(req.params);
     res.json(todos);
   } catch (error) {
     throw new Error(error.message);
