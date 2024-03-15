@@ -5,6 +5,7 @@ const server = express();
 const { v4: uuidv4 } = require("uuid");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { User, ToDo } = require("./schema/index");
 
 const PORT = process.env.PORT ?? 8000;
 
@@ -16,11 +17,9 @@ const saltRounds = 10;
 server.get("/todos/:userEmail", async (req, res) => {
   const { userEmail } = req.params;
   try {
-    const todos = await pool.query(
-      "SELECT * FROM todos WHERE user_email = $1",
-      [userEmail]
-    );
-    res.json(todos.rows);
+    const todos = await ToDo.find({user_email: userEmail})
+    console.log(todos)
+    // res.json(todos);
   } catch (error) {
     console.error({ er: error });
   }
@@ -72,19 +71,17 @@ server.delete("/todos/:id", async (req, res) => {
 
 //signup
 server.post("/signup", async (req, res) => {
-  const { email, password } = req.body;
+  const { email, hashed_password } = req.body;
   const salt = bcrypt.genSaltSync(saltRounds);
-  const hashedpassword = bcrypt.hashSync(password, salt);
+  const hashedpassword = bcrypt.hashSync(hashed_password, salt);
 
   try {
-    const signUp = await pool.query(
-      "INSERT INTO users (email, hashed_password) VALUES ($1, $2)",
-      [email, hashedpassword]
-    );
+    // const signUp = new User({email, hashedpassword})
+    // await signUp.save()
+    const signUp = await User.create({email, hashedpassword})
     const token = jwt.sign({ email }, "secret", { expiresIn: "1hr" });
     res.json({ email, token });
   } catch (error) {
-    // console.error(error);
     if (error) res.json({ detail: error.detail });
   }
 });
