@@ -1,12 +1,5 @@
 const { Router } = require("express");
-const {
-  allToDos,
-  postToDo,
-  patchToDo,
-  deleteToDo,
-  loginController,
-  signUpController,
-} = require("../controller");
+const { loginController, signUpController, allToDos, postToDo, patchToDo, deleteToDo } = require("../controller");
 const router = Router();
 
 router.get("/todos/:id", allToDos);
