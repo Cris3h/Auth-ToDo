@@ -7,7 +7,7 @@ const server = express();
 const PORT = process.env.PORT ?? 8000;
 
 server.use(cors({
-  origin: 'https://auth-to-do-client.vercel.app/', 
+  origin: 'https://auth-to-do-client.vercel.app', 
   methods: ['GET', 'POST','PUT', 'DELETE', 'PATCH', 'OPTIONS'], 
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
